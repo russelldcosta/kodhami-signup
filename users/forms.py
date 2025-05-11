@@ -35,7 +35,7 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={
             'class': 'validate-input',
             'data-pattern': '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$&!])[A-Za-z\\d@#$&!]{6,}$',
-            'data-error': 'Need 6+ chars with letter, number, and special character'
+            'data-error': 'Should contain atleast one alphabet, one number, one char among @#$&!'
         }),
         validators=[
             RegexValidator(
