@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 
 import os
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,11 +22,31 @@ AUTH_USER_MODEL = 'users.CustomUser'        #IMPORTANT
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'kodhami/static'),
+    os.path.join(BASE_DIR, 'users/static'),
 ]
 
+#MYSQL WORKBENCH DATABASE
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'details',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',  # or 'localhost'
+        'PORT': '3306',
+    }
+}
 
+## OLD DATABASE
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 
@@ -94,15 +113,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kodhami.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
