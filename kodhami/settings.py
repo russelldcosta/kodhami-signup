@@ -25,28 +25,25 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'users/static'),
 ]
 
-#MYSQL WORKBENCH DATABASE
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'details',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',  # or 'localhost'
-        'PORT': '3306',
-    }
-}
-
-## OLD DATABASE
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+#MYSQL WORKBENCH DATABASE TO VERIFY DATABASE FUNCTIONALITY
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'details',
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': '127.0.0.1',  # or 'localhost'
+#         'PORT': '3306',
 #     }
 # }
+
+# OLD DATABASE
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 
