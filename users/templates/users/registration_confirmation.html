@@ -5,9 +5,11 @@
 <head>
     <title>Registration Confirmation | Kodhami</title>
     <style>
+
         *, *::before, *::after {
         box-sizing: border-box;
         }
+
         body {
             margin: 0;
             min-height: 100vh;
@@ -116,7 +118,8 @@
             <p><strong>Phone:</strong> {{ user.phone_number }}</p>
         </div>
         
-        <a href="/" class="continue-btn">Continue to Dashboard</a>
+        <!-- Updated button linking back to signup page -->
+        <a href="{% url 'signup' %}" class="continue-btn">Back to Sign Up</a>
     </div>
 </body>
 </html>
