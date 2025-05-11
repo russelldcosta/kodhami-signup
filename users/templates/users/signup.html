@@ -1,14 +1,304 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Sign Up</title>
+    <style>
+        *, *::before, *::after {
+        box-sizing: border-box;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .company-logo {
+            height: 60px;  /* Adjust as needed */
+            width: auto;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #282a36;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .signup-container {
+            background: #44475a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #f8f8f2;
+            text-align: center;
+            margin: 0 0 1.2rem 0;
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: -0.25px;
+            font-family: sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            color: #bd93f9;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .validate-input {
+            width: 100%;
+            padding: 0.5rem;
+            background: #6272a4;
+            border: 1px solid #44475a;
+            border-radius: 4px;
+            color: #f8f8f2;
+            font-size: 0.9rem;
+            transition: all 0.5s ease;
+        }
+
+        .validate-input:focus {
+            outline: none;
+            border-color: #bd93f9;
+            box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.2);
+        }
+
+        .validate-input.valid {
+            border-color: #50fa7b;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2350fa7b' width='16' height='16'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 16px;
+        }
+
+        .validate-input.invalid {
+            border-color: #ff5555;
+        }
+
+        .error-message {
+            color: #ff5555;
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+            display: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background: #bd93f9;
+            color: #282a36;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background: #a77ff1;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background: #6272a4;
+            color: #848dab;
+            cursor: not-allowed;
+        }
+
+        .email-status {
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .checking { color: #f1fa8c; }
+        .available { color: #50fa7b; }
+        .taken { color: #ff5555; }
+    </style>
 </head>
 <body>
-    <h1>Sign Up</h1>
-    <form method="post">
+    <div class="signup-container">
+        <div class="logo-container">
+        <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="company-logo">
+    </div>
+    <h1>Sign-up</h1>
+    <form method="post" id="signupForm">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        
+        <div class="form-group">
+            <label>First Name</label>
+            {{ form.first_name }}
+            <div class="error-message" data-for="first_name"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Last Name</label>
+            {{ form.last_name }}
+            <div class="error-message" data-for="last_name"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            {{ form.email }}
+            <div class="error-message" data-for="email"></div>
+            <div id="email-status" class="email-status"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            {{ form.phone_number }}
+            <div class="error-message" data-for="phone_number"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            {{ form.password }}
+            <div class="error-message" data-for="password"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Repeat Password</label>
+            {{ form.repeat_password }}
+            <div class="error-message" data-for="repeat_password"></div>
+        </div>
+
+        <button type="submit" id="submitBtn" disabled>Submit</button>
     </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('signupForm');
+        const inputs = form.querySelectorAll('.validate-input');
+        const submitBtn = document.getElementById('submitBtn');
+        let emailCheckTimeout;
+
+
+        document.getElementById('id_phone_number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9+]/g, '');
+        });
+
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                validateField(this);
+                if (this.name === 'password') {
+                    validateField(document.querySelector('[name="repeat_password"]'));
+                }
+                updateSubmitButton();
+            });
+        });
+
+
+        document.querySelector('[name="email"]').addEventListener('input', function() {
+            clearTimeout(emailCheckTimeout);
+            const email = this.value.trim();
+            const errorElement = form.querySelector('[data-for="email"]');
+            const statusElement = document.getElementById('email-status');
+
+            if (!email) {
+                statusElement.textContent = '';
+                return;
+            }
+
+
+            const emailRegex = new RegExp(this.getAttribute('data-pattern'));
+            if (!emailRegex.test(email)) {
+                statusElement.textContent = '';
+                return;
+            }
+
+            statusElement.textContent = 'Checking availability...';
+            statusElement.className = 'email-status checking';
+
+            emailCheckTimeout = setTimeout(() => {
+                fetch('/check-email/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        statusElement.textContent = 'Email already registered';
+                        statusElement.className = 'email-status taken';
+                        this.classList.add('invalid');
+                        this.classList.remove('valid');
+                    } else {
+                        statusElement.textContent = 'Email available';
+                        statusElement.className = 'email-status available';
+                        this.classList.add('valid');
+                        this.classList.remove('invalid');
+                    }
+                    updateSubmitButton();
+                });
+            }, 500);
+        });
+
+        function validateField(field) {
+            const errorElement = form.querySelector(`[data-for="${field.name}"]`);
+            let isValid = false;
+
+
+            if (field.name === 'repeat_password') {
+                const password = form.querySelector('[name="password"]').value;
+                isValid = field.value === password;
+            } else {
+                const pattern = field.getAttribute('data-pattern');
+                if (pattern) {
+                    const regex = new RegExp(pattern);
+                    isValid = regex.test(field.value);
+                }
+            }
+
+            field.classList.remove('valid', 'invalid');
+            errorElement.style.display = 'none';
+
+            if (field.value) {
+                field.classList.add(isValid ? 'valid' : 'invalid');
+                if (!isValid) {
+                    errorElement.textContent = field.getAttribute('data-error');
+                    errorElement.style.display = 'block';
+                }
+            }
+        }
+
+        function updateSubmitButton() {
+            const allValid = Array.from(inputs).every(input => {
+                if (!input.value) return false;
+                if (input.name === 'email') {
+                    const statusElement = document.getElementById('email-status');
+                    return input.classList.contains('valid') && 
+                          !statusElement.classList.contains('taken');
+                }
+                return input.classList.contains('valid');
+            });
+
+            const password = form.querySelector('[name="password"]').value;
+            const repeatPassword = form.querySelector('[name="repeat_password"]').value;
+            const passwordsMatch = password === repeatPassword;
+
+            submitBtn.disabled = !(allValid && passwordsMatch);
+        }
+
+        inputs.forEach(validateField);
+        updateSubmitButton();
+    });
+    </script>
+    </div>
 </body>
 </html>

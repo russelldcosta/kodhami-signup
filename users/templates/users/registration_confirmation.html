@@ -1,13 +1,122 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registration Confirmation</title>
+    <title>Registration Confirmation | Kodhami</title>
+    <style>
+        *, *::before, *::after {
+        box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #282a36;
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #f8f8f2;
+        }
+        
+        .confirmation-container {
+            background: #44475a;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .company-logo {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .company-name {
+            color: #bd93f9;
+            font-size: 2rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        h1 {
+            color: #50fa7b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .user-details {
+            background: #6272a4;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-details p {
+            margin: 0.8rem 0;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #44475a;
+        }
+        
+        .user-details p:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .user-details strong {
+            color: #bd93f9;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .continue-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: #bd93f9;
+            color: #282a36;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .continue-btn:hover {
+            background: #a77ff1;
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome {{ user.first_name }}</h1>
-    <p><strong>First Name:</strong> {{ user.first_name }}</p>
-    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+    <div class="confirmation-container">
+        <div class="logo-container">
+            <img src="{% static 'images/logo.png' %}" alt="Kodhami Logo" class="company-logo">
+        </div>
+        
+        <h1>Welcome {{ user.first_name }}!</h1>
+        
+        <div class="user-details">
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+        </div>
+        
+        <a href="/" class="continue-btn">Continue to Dashboard</a>
+    </div>
 </body>
 </html>
