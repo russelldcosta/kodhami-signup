@@ -10,8 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+
+
+
 from pathlib import Path
-AUTH_USER_MODEL = 'users.CustomUser'                                                                          #IMPORTANT
+AUTH_USER_MODEL = 'users.CustomUser'        #IMPORTANT
+
+
+
+
+
+
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
