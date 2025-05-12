@@ -1,10 +1,11 @@
 ===============================================
-Kodhami Django Project - Setup Guide
+Dynamic Sign-up form Django Project
 ===============================================
+
 
 1. SET UP VIRTUAL ENVIRONMENT
 -----------------------------
-Open terminal/command prompt in the project folder (where manage.py is located):
+Open terminal in the same directory where manage.py is located.
 
 For Windows:
 > pipenv shell
@@ -13,15 +14,18 @@ For Mac/Linux:
 $ python3 -m venv venv
 $ source venv/bin/activate
 
+
+
 2. INSTALL DEPENDENCIES
 -----------------------
-With virtual environment activated:
 
 > pip install -r requirements.txt
 
 If requirements.txt doesn't exist:
 > pip install pipenv
 > pipenv install
+
+
 
 5. SET UP DATABASE
 ------------------
@@ -43,19 +47,23 @@ If requirements.txt doesn't exist:
 -----------------
 > python manage.py migrate
 
+
 7. CREATE SUPERUSER (Optional)
 ------------------------------
 > python manage.py createsuperuser
 Follow prompts to create admin account
 
+
 8. RUN DEVELOPMENT SERVER
 -------------------------
 > python manage.py runserver
 
+
 9. ACCESS THE PROJECT
 ---------------------
-- Open browser and go to: http://127.0.0.1:8000/
+- Open browser and go to: http://127.0.0.1:8000/signup/
 - Admin panel: http://127.0.0.1:8000/admin/
+
 
 10. PROJECT STRUCTURE
 ---------------------

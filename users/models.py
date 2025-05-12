@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.contrib.auth.base_user import BaseUserManager
 
+# how users are created
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -24,7 +25,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
-
+# actual user definition
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)

@@ -37,17 +37,12 @@ def validate_field(request):
     
     if not field_name or value is None:
         return JsonResponse({'error': 'Missing parameters'}, status=400)
-
-
     form_data = {field_name: value}
     
-
     if field_name == 'repeat_password':
         form_data['password'] = request.POST.get('password', '')
-
     form = UserRegistrationForm(form_data)
     
-
     form.is_valid()
     
     return JsonResponse({
